@@ -35,6 +35,7 @@ class LinkedList{
         LinkedList<T> Insert(const T data);
         LinkedList<T> Insert(int k, const T data);
         T ElementAt(int index);
+        void PrintPointerTable();
         int length;
     private:
         Node<T> *first = NULL;
@@ -106,9 +107,7 @@ LinkedList<T> LinkedList<T>::Insert(int k, const T data){
     if (k < 0 || k >= length)
         throw std::out_of_range("Invalid index");
 
-    Node<T> node(data, NULL);
-    
-    int index = -1;
+    int index = 0;
     
     Node<T> *current = this->first;
     while (index != k-1){
@@ -116,14 +115,18 @@ LinkedList<T> LinkedList<T>::Insert(int k, const T data){
         index++;
     }
 
-    node.link = current->link;
-    current->link = &node;
+    cout << "current address " << &current << " and points to " << current->link << endl;
 
+    Node<T> *node = new Node<T>(data, current->link);
+    current->link = node;
+
+    cout << "Node points at " << node->link << " and has address " << &node << endl;
+    cout << "current address " << &current << " and points to " << current->link << endl;
     if (k == 0)
-        first = &node;
+        first = node;
 
     if (k == this->length-1)
-        last = &node;
+        last = node;
     
     length++;
 
@@ -147,6 +150,14 @@ T LinkedList<T>::ElementAt(int index){
     return current.data;
 }
 
+template <typename T>
+void LinkedList<T>::PrintPointerTable(){
+    Node<T> *node = this->first;
+    while(node->link){
+
+    }
+}
+
 int main(){
     LinkedList<int> linkedList;
     int a[] = {213,452,987,47,19,3873,2840,2373};
@@ -158,6 +169,13 @@ int main(){
         linkedList.Insert(a[i]);
         cout << "length now is : " << linkedList.length << endl;
     }
+
+    cout << "Printing LinkedList..." << endl;
+    for (int i = 0; i < linkedList.length; i++){
+        cout << linkedList.ElementAt(i) << " ";
+    }
+
+    cout << endl;
 
     cout << "Inserting \'245\' at index \'6\''..." << endl;
     linkedList.Insert(6, 245);
@@ -172,6 +190,20 @@ int main(){
             fail++;
         }
     }
+
+    cout << "Printing LinkedList..." << endl;
+    for (int i = 0; i < linkedList.length; i++){
+        cout << linkedList.ElementAt(i) << " ";
+    }
+
+    cout << endl;
+
+    cout << "Printing Array..." << endl;
+    for (int i = 0; i < linkedList.length - 1; i++){
+        cout << a[i] << " ";
+    }
+
+    cout << endl << endl;
 
     cout << "Testing complete" << endl;
     cout << "Passed : " << pass << " Failed : " << fail << endl;
