@@ -57,6 +57,7 @@ int* bubbleSort(int* input, int k) {
     for (int i = 0; i < k-1; i++) {
         for (int j = 0; j < k-1-i; j++) {
             if (input[j] > input[j+1]){
+                // Swaps number at j with j+1 using XOR
                 input[j] ^= input[j+1];
                 input[j+1] ^= input[j];
                 input[j] ^= input[j+1];
@@ -74,10 +75,12 @@ int* selectionSort(int* input, int k){
         }
 
         if (input[i] < *temp){
+            // Swaps number at i with that at temp using XOR            
             input[i] ^= *temp;
             *temp ^= input[i];
             input[i] ^= *temp;   
 
+            // temp is assigned first value from next set
             *temp = input[i+1];     
         }
     }
@@ -120,3 +123,4 @@ int* bucketSort(int* input, int k){
     }
     return result;
 }
+
