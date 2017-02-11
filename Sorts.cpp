@@ -28,27 +28,14 @@ int main(){
     cout << endl << "Sorting array using bubbleSort..." << endl;
     printArr(bubbleSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
     
-    // for (int i = 0; i < ARR_LEN; i++){
-    //     array[i] = rand() % 1000 + 1;
-    // }
 
     cout << endl << "Sorting array using selectionSort..." << endl;
     printArr(selectionSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
     cout  << endl;
-    
-    // for (int i = 0; i < ARR_LEN; i++){
-    //     array[i] = rand() % 1000 + 1;
-    // }
 
     cout << endl << "Sorting array using bucketSort..." << endl;
     printArr(bucketSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
     cout  << endl;
-
-    /*
-    for (int i = 0; i < ARR_LEN; i++){
-        array[i] = rand() % 1000 + 1;
-    }
-    */
 
     cout << endl << "Sorting array using radixSort..." << endl;
     printArr(radixSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
@@ -98,14 +85,13 @@ int* bubbleSort(int* input, int k) {
 }
 
 int* selectionSort(int* input, int k){
-    //printArr(input, ARR_LEN, false);
     int* temp = input;
-    for (int i = 0; i < k; i++){
-        for (int j = i; j < k; j++){
+    for (int i = 0; i < k-1; i++){
+        for (int j = i+1; j < k; j++){
             temp = input[j] <= *temp ? &input[j] : temp; 
         }
 
-        if (input[i] < *temp){
+        if (input[i] > *temp){
             // Swaps number at i with that at temp using XOR            
             input[i] ^= *temp;
             *temp ^= input[i];
@@ -125,8 +111,7 @@ int* bucketSort(int* input, int k){
     // among the input set.
     int max = *input;
 
-    printArr(input, ARR_LEN, false);
-    for (int i = 0; i < k; i++) {
+        for (int i = 0; i < k; i++) {
         max = max > input[i] ? max : input[i];
     }
 
@@ -143,9 +128,9 @@ int* bucketSort(int* input, int k){
 
     // Iterates over every bucket and fills result
     //
-    // tracks index of result array  
+    // tracks index of input array  
     //        |         
-    //        | tracks number of elements in bucket     
+    //        | tracks index of result array      
     //        |       |       
     //        |       |  equals to condition so that largest doesn't get left out       
     //        |       |       | 
