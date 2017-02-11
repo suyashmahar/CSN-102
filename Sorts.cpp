@@ -1,14 +1,17 @@
 #include<cstdlib>
 #include<iostream>
+#include<queue>
 #include<string>
 #include<math.h>
 
 using namespace std;
 
-void printArr(int* a, int length);
+void printArr(int* input, int length, bool del);
+int* copyArray(int* input, int k);
 int* bubbleSort(int* input, int k);
 int* selectionSort(int* input, int k);
 int* bucketSort(int* input, int k);
+int* radixSort(int* input, int k);
 
 int ARR_LEN = 100;
 
@@ -21,36 +24,63 @@ int main(){
         array[i] = rand() % 1000 + 1;
     }
     
-    printArr(array, ARR_LEN);
+    printArr(array, ARR_LEN, false);
     cout << endl << "Sorting array using bubbleSort..." << endl;
-    printArr(bubbleSort(array, ARR_LEN), ARR_LEN);
+    printArr(bubbleSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
     
-    for (int i = 0; i < ARR_LEN; i++){
-        array[i] = rand() % 1000 + 1;
-    }
+    // for (int i = 0; i < ARR_LEN; i++){
+    //     array[i] = rand() % 1000 + 1;
+    // }
 
     cout << endl << "Sorting array using selectionSort..." << endl;
-    printArr(selectionSort(array, ARR_LEN), ARR_LEN);
-    cout  << endl << "exiting..." << endl;
+    printArr(selectionSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
+    cout  << endl;
+    
+    // for (int i = 0; i < ARR_LEN; i++){
+    //     array[i] = rand() % 1000 + 1;
+    // }
+
+    cout << endl << "Sorting array using bucketSort..." << endl;
+    printArr(bucketSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
+    cout  << endl;
+
+    /*
     for (int i = 0; i < ARR_LEN; i++){
         array[i] = rand() % 1000 + 1;
     }
+    */
 
-    cout << endl << "Sorting array using bucketSort..." << endl;
-    printArr(bucketSort(array, ARR_LEN), ARR_LEN);
-    cout  << endl << "exiting..." << endl;
+    cout << endl << "Sorting array using radixSort..." << endl;
+    printArr(radixSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
+    cout  << endl;
     for (int i = 0; i < ARR_LEN; i++){
         array[i] = rand() % 1000 + 1;
     }
 }
 
+// returns a copy of input array 
+int* copyArray(int* input, int k){
+    int* result = new int[k];
+    for (int i = 0; i < k; i++){
+        result[i] = input[i];    
+    }
+    return result;
+}
+
+
 
 // Prints given array in single line
-void printArr(int* a, int length){
+// and then deletes it.
+void printArr(int* input, int length, bool del){
     for (int i = 0; i < length; i++){
-        cout << a[i] << " ";
+        cout << input[i] << " ";
     }
     cout << endl;
+
+    if (del){
+        delete[] input;
+        input = NULL;
+    }
 }
 
 int* bubbleSort(int* input, int k) {
@@ -68,6 +98,7 @@ int* bubbleSort(int* input, int k) {
 }
 
 int* selectionSort(int* input, int k){
+    //printArr(input, ARR_LEN, false);
     int* temp = input;
     for (int i = 0; i < k; i++){
         for (int j = i; j < k; j++){
@@ -79,11 +110,12 @@ int* selectionSort(int* input, int k){
             input[i] ^= *temp;
             *temp ^= input[i];
             input[i] ^= *temp;   
+        }
 
             // temp is assigned first value from next set
             *temp = input[i+1];     
-        }
     }
+    
     return input;
 }
 
@@ -92,7 +124,9 @@ int* bucketSort(int* input, int k){
     // Finds and stores the maximum number that appears
     // among the input set.
     int max = *input;
-    for (int i = 0; i < k; i++){
+
+    printArr(input, ARR_LEN, false);
+    for (int i = 0; i < k; i++) {
         max = max > input[i] ? max : input[i];
     }
 
@@ -116,7 +150,7 @@ int* bucketSort(int* input, int k){
     //        |       |  equals to condition so that largest doesn't get left out       
     //        |       |       | 
     //        *       *       * 
-    for (int i = 0, j  = 0; i <= max; i++){
+    for (int i = 0, j  = 0; i <= max && j <= max; i++){
         for (int l = 0; l < bucketArr[i]; l++){
             result[j++] = i;
         }
@@ -124,3 +158,32 @@ int* bucketSort(int* input, int k){
     return result;
 }
 
+// Implementation of https://www.youtube.com/watch?v=GUHGMtNo6RQ 
+int* radixSort(int* input, int k){
+    queue<int>* aux = new queue<int>[10];
+
+    // number of digits in a number is (floor(log10(number)) + 1)
+    int maxDigits = 0;
+
+    for (int i = 0; i < k; i++){
+        int digits = floor(log10(input[i])) + 1;
+        maxDigits = maxDigits > digits ? maxDigits : digits;
+    }    
+
+    for (int i = 0; i < maxDigits; i++){
+        for (int j = 0; j < k; j++){
+            // gets least significant digit of the number
+            int digit = (input[j]%((int)pow(10, i+1)))/(int)pow(10, i);
+            aux[digit].push(input[j]);
+        }
+
+        // Rebuilding the array
+        for (int j = 0, l = 0; j < 10; j++){
+            for (int m = 0; m < aux[j].size(); m++){
+                input[l] = aux[j].front();
+                aux[j].pop();
+            }
+        }
+    }
+    return input;
+}
