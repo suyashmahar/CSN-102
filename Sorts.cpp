@@ -2,9 +2,12 @@
 #include<iostream>
 #include<queue>
 #include<string>
+#include<sys/time.h>
 #include<math.h>
 
 using namespace std;
+
+typedef unsigned long long timestamp_t;
 
 void printArr(int* input, int length, bool del);
 int* copyArray(int* input, int k);
@@ -13,7 +16,15 @@ int* selectionSort(int* input, int k);
 int* bucketSort(int* input, int k);
 int* radixSort(int* input, int k);
 
-int ARR_LEN = 100;
+int ARR_LEN = 20;
+
+
+static timestamp_t
+get_timestamp () {
+    struct timeval now;
+    gettimeofday (&now, NULL);
+    return  now.tv_usec + (timestamp_t)now.tv_sec * 1000000;
+}
 
 int main(){
     // Initialize array with random data
@@ -28,23 +39,28 @@ int main(){
     printArr(array, ARR_LEN, false);
 
     cout << endl << "Sorting array using bubbleSort..." << endl;
+    timestamp_t start = get_timestamp();
     printArr(bubbleSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
-    
+    cout <<  "time elapsed: " << (get_timestamp() - start)/1000000.0L << " second(s)" << endl;
 
     cout << endl << "Sorting array using selectionSort..." << endl;
+    start = get_timestamp();
     printArr(selectionSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
+    cout <<  "time elapsed: " << (get_timestamp() - start)/1000000.0L << " second(s)" << endl;    
     cout  << endl;
 
     cout << endl << "Sorting array using bucketSort..." << endl;
+    start = get_timestamp();
     printArr(bucketSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
+    cout <<  "time elapsed: " << (get_timestamp() - start)/1000000.0L << " second(s)" << endl;
     cout  << endl;
 
     cout << endl << "Sorting array using radixSort..." << endl;
+    start = get_timestamp();
     printArr(radixSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
+    cout <<  "time elapsed: " << (get_timestamp() - start)/1000000.0L << " second(s)" << endl;
     cout  << endl;
-    for (int i = 0; i < ARR_LEN; i++){
-        array[i] = rand() % 1000 + 1;
-    }
+
 }
 
 // returns a copy of input array 
