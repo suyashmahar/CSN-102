@@ -23,8 +23,10 @@ int main(){
     for (int i = 0; i < ARR_LEN; i++){
         array[i] = rand() % 1000 + 1;
     }
-    
+
+    cout << "Random array used for sorting is : " << endl;
     printArr(array, ARR_LEN, false);
+
     cout << endl << "Sorting array using bubbleSort..." << endl;
     printArr(bubbleSort(copyArray(array, ARR_LEN), ARR_LEN), ARR_LEN, false);
     
@@ -145,8 +147,7 @@ int* bucketSort(int* input, int k){
 
 // Implementation of https://www.youtube.com/watch?v=GUHGMtNo6RQ 
 int* radixSort(int* input, int k){
-    queue<int>* aux = new queue<int>[10];
-
+    int count = 0;
     // number of digits in a number is (floor(log10(number)) + 1)
     int maxDigits = 0;
 
@@ -156,16 +157,18 @@ int* radixSort(int* input, int k){
     }    
 
     for (int i = 0; i < maxDigits; i++){
+        queue<int>* aux = new queue<int>[10];
+
         for (int j = 0; j < k; j++){
-            // gets least significant digit of the number
+            // gets i th least significant digit of the number
             int digit = (input[j]%((int)pow(10, i+1)))/(int)pow(10, i);
+            count++;
             aux[digit].push(input[j]);
         }
-
         // Rebuilding the array
         for (int j = 0, l = 0; j < 10; j++){
-            for (int m = 0; m < aux[j].size(); m++){
-                input[l] = aux[j].front();
+            while (aux[j].size()){
+                input[l++] = aux[j].front();
                 aux[j].pop();
             }
         }
