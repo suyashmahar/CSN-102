@@ -26,13 +26,22 @@ int main(){
     printArr(bubbleSort(array, ARR_LEN), ARR_LEN);
     
     for (int i = 0; i < ARR_LEN; i++){
-        array[i] = i;
-        //array[i] = rand() % 1000 + 1;
+        array[i] = rand() % 1000 + 1;
     }
 
     cout << endl << "Sorting array using selectionSort..." << endl;
     printArr(selectionSort(array, ARR_LEN), ARR_LEN);
     cout  << endl << "exiting..." << endl;
+    for (int i = 0; i < ARR_LEN; i++){
+        array[i] = rand() % 1000 + 1;
+    }
+
+    cout << endl << "Sorting array using bucketSort..." << endl;
+    printArr(bucketSort(array, ARR_LEN), ARR_LEN);
+    cout  << endl << "exiting..." << endl;
+    for (int i = 0; i < ARR_LEN; i++){
+        array[i] = rand() % 1000 + 1;
+    }
 }
 
 
@@ -75,23 +84,39 @@ int* selectionSort(int* input, int k){
     return input;
 }
 
+// Bubble sort implementation to sort positive numbers in c++
 int* bucketSort(int* input, int k){
+    // Finds and stores the maximum number that appears
+    // among the input set.
     int max = *input;
     for (int i = 0; i < k; i++){
         max = max > input[i] ? max : input[i];
     }
-    int* bucketArr = new int[max];
-    
+
+    // Creates new array of bucket
+    int* bucketArr = new int[max+1];
+
+    // Stores input into to corresponding bucket    
     for (int i = 0; i < k; i++){
-        bucketArr[i]++;
+        bucketArr[input[i]]++;
     }
 
+    // Array that stores result to return
     int* result = new int[k];
 
-    for (int i = 0; i < max; i++){
-        if (bucketArr[i]>0){
-            
+    // Iterates over every bucket and fills result
+    //
+    // tracks index of result array  
+    //        |         
+    //        | tracks number of elements in bucket     
+    //        |       |       
+    //        |       |  equals to condition so that largest doesn't get left out       
+    //        |       |       | 
+    //        *       *       * 
+    for (int i = 0, j  = 0; i <= max; i++){
+        for (int l = 0; l < bucketArr[i]; l++){
+            result[j++] = i;
         }
     }
-    return input;
+    return result;
 }
