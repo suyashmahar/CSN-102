@@ -5,6 +5,8 @@ This is repository contains collection of algorithm being taught in CSN-102
     * Linear List
     * Linked List
     * CircularLinked List
+* Searching Algorithms
+    * Binary Search
 * Sorting
     * Bubble Sorting
     * Selection Sort
