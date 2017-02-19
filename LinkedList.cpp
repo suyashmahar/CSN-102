@@ -29,7 +29,7 @@ class LinkedList{
         ~LinkedList();
         bool isEmpty();  // Done
         int Length() const; 
-        bool Find(int k, T data) const; // Done
+        int Find(int k, T data) const; // Done
         int Search(const T data) const; // Done
         LinkedList<T> Delete(int k); 
         LinkedList<T> Insert(const T data);
@@ -57,10 +57,11 @@ bool LinkedList<T>::isEmpty(){
     return (length == 0);
 }
 template <typename T>
-bool LinkedList<T>::Find(int k, T data) const{
+int LinkedList<T>::Find(int k, T data) const{
     Node<T> *current = this->first;
     int index = 0;
     while (current->link != NULL && current->data !=data){
+        current=current->link ;
         index++;
     }
 
@@ -77,6 +78,7 @@ int LinkedList<T>::Search(const T data) const{
     int index = 0;
 
     while (current->data != data){
+        current=current->link;
         index++;
     }
 
