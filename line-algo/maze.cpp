@@ -77,14 +77,22 @@ vector<coordinate> generateLinePath(int srcX, int srcY, int desX, int desY){
     vector<coordinate> path;
 
     int x = 0, y = srcY;
-
-    while (y != desY){
-        x = (int)(srcX + m*(y - srcY)) /*!= 0 ? (int)(srcX + m*(y - srcY)) : y*/;
+    
+    while (y <= desY){
+        x = (int)(srcX + m*(y - srcY));
 
         coordinate crdToInsert;
 
         crdToInsert.x = x;
-        crdToInsert.y = y++;
+        crdToInsert.y = y;
+
+        //y++;
+        if (desY - srcY) {
+            y++;
+        } else {
+            y--;
+        }
+        //y = desY - srcY <= 0 ? y+1 : y-1;
 
         path.push_back(crdToInsert);
     }    
@@ -99,21 +107,28 @@ char** generateMaze(int x, int y){
         newMaze[i] = row;
 
         for (int j = 0; j < width; j++){
-            if (i*j == 0 || j == width-1 || i == height-1) { 
-                newMaze[i][j] = '*';
-            } else {
-                newMaze[i][j] = ' ';
-            }
+            newMaze[i][j] = ' ';
         }
     }
     return newMaze;
 }
 
 void printMatrix(char** inputMatrix, int x, int y){
-    for (int i = 0; i < x; i++){
-        for (int j = 0; j < y; j++){
-            cout << inputMatrix[i][j] << " ";
-        }
-        cout << endl;
+    for (int i = 0; i < y+2; i++) {
+        cout << '#' << " ";
     }
+    cout << endl;
+
+    for (int i = 0; i < x; i++){
+        cout << '#' << ' ';
+        for (int j = 0; j < y; j++){
+            cout << inputMatrix[i][j];
+            cout << " ";
+        }
+        cout << '#' << endl;
+    }
+    
+    for (int i = 0; i < y+2; i++) 
+        cout << '#' << " ";
+    cout << endl;
 }
