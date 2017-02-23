@@ -17,8 +17,9 @@ This repository contains:
     * *Bucket Sort*
     * *Radix Sort*
 * __Stack Implementations__
-    * *Maze Solving Algorithm* | [stack-implementation/maze.cpp](maze/maze.cpp)  
+    * Infix to postfix converter | [stack-implementation/inToPost.cpp](stack-implementation/inToPost.cpp)  
+    * Maze Solving Algorithm | [Under Construction](https://suyashmahar.me/404)  
 * __Other Algorithms__  
-    * *Line Drawing Algorithm* | [line-algo/maze.cpp](maze/maze.cpp)  
-    Finds the path from initial position to final position on a 2D cartesian coordinate system.    
+    * Line Drawing Algorithm | [line-algo/maze.cpp](maze/maze.cpp)  
+    *Finds the path from initial position to final position on a 2D cartesian coordinate system.*
     
