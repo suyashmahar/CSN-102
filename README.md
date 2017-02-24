@@ -11,15 +11,18 @@ This is repository contains collection of algorithm being taught in CSN-102
 * *CircularLinked List* | [CircularLinkedList.cpp](CircularLinkedList.cpp)  
 
 ### Searching Algorithms (within single file) | [search.cpp](search.cpp)
-* *Binary Search*  
+* *Binary Search*    
+
 ###  Sorting Algorithms (within a single file) | [Sorts.cpp](Sorts.cpp)
 * *Bubble Sorting*
 * *Selection Sort*
 * *Bucket Sort*
 * *Radix Sort*  
+
 ###  Stack Implementations
 * Infix to postfix converter | [stack-implementation/inToPost.cpp](stack-implementation/inToPost.cpp)  
 * Maze Solving Algorithm | [Under Construction](https://suyashmahar.me/404)   
+
 ###  Other Algorithms  
 * Lempel–Ziv–Welch Compression Algorithm | [algorithms/lzw.cpp](algorithms/lzw.cpp)  
 * Line Drawing Algorithm | [line-algo/maze.cpp](line-algo/maze.cpp)  
