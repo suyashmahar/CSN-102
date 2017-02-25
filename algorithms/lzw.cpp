@@ -1,9 +1,11 @@
 // Implementation of : https://www.youtube.com/watch?v=j2HSd3HCpDs
 // WARNING :: This compression will produce incorrect compressed string 
-//            if curCount exceeds 9 bits i.e. 512 
+//            if curCount exceeds 9 bits i.e. 512 in other words if size
+//            of dictionary exceeds 256 in count
 //
-//
+//=======================================================================
 // Example:
+//=======================================================================
 //   +-------------------------------------------------------------------------------------------------------------------------------------------------+
 //   | $ ./lzw                                                                                                             |
 //   | Copyleft (ɔ) 2017                                                                                                                               |
@@ -18,6 +20,7 @@
 #include<bitset> 
 #include<cstdlib>
 #include<iostream>
+#include<list>
 #include<map>
 #include<string>
 #include<sstream>
@@ -71,6 +74,68 @@ string compress(string inputString){
     return result;
 }
 
+int binToDec(string binary){
+    long bin, dec = 0, rem, num, base = 1;
+    stringstream ss(binary);
+    
+    ss >> num;
+    
+    bin = num;
+    
+    while (num > 0) {
+        rem = num % 10;
+        dec = dec + rem * base;
+        base = base * 2;
+        num = num / 10;
+    }
+    return dec;
+}
+
+string decompress(string inputString){
+    list<string> phaseList; // Reminds of phase-space :-P
+    map<int, string> dictionary;
+
+    string result = "";
+    stringstream ss;
+
+    int inputStringLen = inputString.length();
+    int curCount = 255;
+
+    if (inputStringLen%BITS != 0){
+        throw length_error("Length of string to decompress should be multiple of BITS");
+    }
+
+    for (int i = 0; i < inputStringLen/BITS; i++){
+        phaseList.push_back(inputString.substr(i*BITS, BITS));
+    } 
+
+    while (phaseList.size()-1){
+        int curNum = binToDec(phaseList.front());
+        phaseList.pop_front();
+        int nextNum = binToDec(phaseList.front());
+        if (curNum <= 255) {
+            result += (char)curNum;
+            string toAdd = "";
+            ss << (char)curNum << (char)nextNum;
+            dictionary.insert(pair<int, string>(++curCount, ss.str()));
+        } else {
+            result += dictionary[curNum];
+        }
+        ss.str("");
+    }
+
+    if (dictionary.find(binToDec(phaseList.front())) != dictionary.end()){
+        result += dictionary[binToDec(phaseList.front())];
+    } else {
+        result += (char)binToDec(phaseList.front());
+    }
+    return result;
+}
+
+void testing(){
+    cout << decompress("001110100001101000001101001001110011100000010100000000001100101") << endl;
+}
+
 // Generates a ASCII equivalent of the given string to compare with
 // the compressed version
 string toASCIIString(string inputString){
@@ -80,11 +145,6 @@ string toASCIIString(string inputString){
     }
 
     return ss.str();
-}
-
-void testing(){
-    char sampleChar = '\n';
-    cout << bitset<BITS>((int)sampleChar).to_string() << endl;
 }
 
 // compares size of two string in returns size difference in percentage
@@ -106,20 +166,39 @@ int main(){
 
     cout << "Copyleft (ɔ) 2017" << endl;
     cout << "LZW implementation (compression level is inversely proportional to entropy of string)\n\n";
-    cout << "Enter a string to compress: ";
-
-    string inputString; cin >> inputString;
     
-    string original = toASCIIString(inputString);
-    string compressed = compress(inputString);
+    int choice = -1;
 
-    cout << "Original:\t" << original << endl;
-    cout << "Compressed:\t" << compressed << endl << endl;
+    while (choice !=0 || choice != 1){
+        cout << "Enter 0 for compression and 1 for decompression: ";
 
-    cout << "String was ";
-    if (compare(original, compressed) > 0){
-        cout << compare(original, compressed) << "% compressed!" << endl;
-    } else {
-        cout << -1*compare(original, compressed) << "% expanded! Enter a string with lower entropy." << endl;        
+        cin >> choice;
+
+        if (choice == 0){
+            cout << "Enter a string for compression: ";
+            
+            string inputString;
+            cin >> inputString;
+
+            string original = toASCIIString(inputString);
+            string compressed = compress(inputString);
+
+            cout << "Original:\t" << original << endl;
+            cout << "Compressed:\t" << compressed << endl
+                << endl;
+
+            cout << "String was ";
+            if (compare(original, compressed) > 0) {
+                cout << compare(original, compressed) << "% compressed!" << endl;
+            }
+            else {
+                cout << -1 * compare(original, compressed) << "% expanded! Enter a string with lower entropy." << endl;
+            }
+        } else {
+            cout << "Enter a compressed string: ";
+            string compressedString; cin >> compressedString;
+            cout << "Decompressed string is: " << decompress(compressedString);
+        }
+        
     }
 }
