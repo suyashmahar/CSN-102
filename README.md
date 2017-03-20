@@ -27,3 +27,9 @@ This is repository contains collection of algorithm being taught in CSN-102
 * Lempel–Ziv–Welch Compression Algorithm | [algorithms/lzw.cpp](algorithms/lzw.cpp)  
 * Line Drawing Algorithm | [line-algo/maze.cpp](line-algo/maze.cpp)  
     
+###  Assignments  
+Template | [Assignments/template.tex](Assignments/template.tex)  
+* Assignment 1 | [Under Construction](https://suyashmahar.me/404)
+* Assignment 2 | [Under Construction](https://suyashmahar.me/404)  
+* Assignment 3 | [Assignments/3/Solution.tex](Assignments/3/Solution.tex)  
+* Assignment 4 | [Under Construction](https://suyashmahar.me/404)  
