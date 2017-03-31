@@ -9,6 +9,8 @@ This is repository contains collection of algorithm being taught in CSN-102
 * *Linear List* | [LinearList.cpp](LinearList.cpp)
 * *Linked List* | [LinkedList.cpp](LinkedList.cpp)
 * *CircularLinked List* | [CircularLinkedList.cpp](CircularLinkedList.cpp)  
+* *Stack using queue* | [stackUsingQueue.cc](stackUsingQueue.cc)  
+* *Binary search tree* | [bst-tree/bst.cpp](bst-tree/bst.cpp)  
 
 ### Searching Algorithms (within single file) | [search.cpp](search.cpp)
 * *Binary Search*    
