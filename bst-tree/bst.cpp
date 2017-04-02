@@ -65,6 +65,9 @@ class bst{
         void add(int element);
         void postorderPrint(node* p, int indent=0);
         bool search(node *ref, int element);
+        int nodeCount(node *ref);
+        int height(node *ref);
+        void mirror(node *ref);
 
         std::string postOrderTraversal() { 
             std::stringstream ss("");
@@ -100,7 +103,7 @@ void bst::addToNode(node *ref, int element) {
             node *newNode = new node(element, NULL, NULL);
             ref->left = newNode;
         } else {
-            addToNode(ref->right, element);
+            addToNode(ref->left, element);
         }
     }
 }
@@ -181,14 +184,45 @@ bool bst::search(node *ref, int element){
     }
 }
 
+int bst::nodeCount(node *ref){
+    if (ref == NULL) {
+        return 0;
+    } else if (ref == root) {
+        return nodeCount(ref->left) + nodeCount(ref->right) + 2; 
+    } else {
+        return nodeCount(ref->left) + nodeCount(ref->right) + 1 ; 
+    }
+}
+
+int bst::height(node *ref){
+    if (ref == NULL) {
+        return 0;
+    }
+    int lt = height(ref->left);
+    int rt = height(ref->right);
+    return (rt > lt ? ++rt:++lt);
+}
+
+void bst::mirror(node *ref){
+    if (ref == NULL) {
+        return;
+    }
+    node *temp = ref->left;
+    ref->left = ref->right;
+    ref->right = temp;
+
+    mirror(ref->left);
+    mirror(ref->right);
+}
+
 
 int main() {
     std::cout << "====================================================" << std::endl;
     bst newTree;
+    newTree.add(7);
     newTree.add(1);
     newTree.add(2);
     newTree.add(5);
-    newTree.add(7);
     newTree.add(2);
     newTree.add(0);
     newTree.add(47);
@@ -198,6 +232,9 @@ int main() {
     std::cout << "Postorder traversal : " << newTree.postOrderTraversal() << std::endl;
     std::cout << "Preorder traversal : " << newTree.preOrderTraversal() << std::endl;
     std::cout << "InOrder traversal : " << newTree.inOrderTraversal() << std::endl;
+
+    std::cout << "Total number of nodes : " << newTree.nodeCount(newTree.root) << std::endl;
+    std::cout << "Height of the tree : " << newTree.height(newTree.root) << std::endl;
     
     // Prints structure of the tree from left to right (like a fallen tree)
     std::cout << std::endl << "Here\'s a tree for you" << std::endl << std::endl;
@@ -208,9 +245,15 @@ int main() {
               << newTree.search(newTree.root, 470) 
               << std::endl; 
     
-    std::cout << "searching for \'47\'... \nResult: " 
-              << newTree.search(newTree.root, 47) 
+    std::cout << "searching for \'-10\'... \nResult: " 
+              << newTree.search(newTree.root, -10) 
               << std::endl; 
+
+    // Mirrors a tree and then prints it
+    std::cout << std::endl << "Here\'s a mirrored tree for you" << std::endl << std::endl;
+    newTree.mirror(newTree.root);
+    newTree.postorderPrint(newTree.root, 0);
     
     std::cout << "====================================================" << std::endl;
+    std::cout << std::endl;
 }
