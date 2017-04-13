@@ -31,7 +31,7 @@ This is repository contains collection of algorithm being taught in CSN-102
     
 ###  Assignments  
 Template | [Assignments/template.tex](Assignments/template.tex)  
-* Assignment 1 | [Under Construction](https://suyashmahar.me/404)
-* Assignment 2 | [Under Construction](https://suyashmahar.me/404)  
-* Assignment 3 | [Assignments/3/Solution.tex](Assignments/3/Solution.tex)  
-* Assignment 4 | [Under Construction](https://suyashmahar.me/404)  
+* Assignment 1 | [NA](https://suyashmahar.me/404)
+* Assignment 2 | [NA](https://suyashmahar.me/404)  
+* Assignment 3 | [NA](https://suyashmahar.me/404)  
+* Assignment 4 | [NA](https://suyashmahar.me/404)
